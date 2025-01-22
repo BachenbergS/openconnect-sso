@@ -8,6 +8,13 @@ to Cisco SSL-VPNs
 
 ## Installation
 
+### Using astral uv
+
+```shell
+$ uv sync
+$ . .venv/bin/activate
+$ python src/openconnect_sso/cli.py 
+
 ### Using pip/pipx
 
 A generic way that works on most 'standard' Linux distributions out of the box.
@@ -40,54 +47,6 @@ effect. ✨ 🌟 ✨
 Of course you can also install via `pip` instead of `pipx` if you'd like to
 install system-wide or a virtualenv of your choice.
 
-### On Arch Linux
-
-There is an unofficial package available for Arch Linux on
-[AUR](https://aur.archlinux.org/packages/openconnect-sso/). You can use your
-favorite AUR helper to install it:
-
-``` shell
-yay -S openconnect-sso
-```
-
-### Using nix
-
-The easiest method to try is by installing directly:
-
-```shell
-$ nix-env -i -f https://github.com/vlaci/openconnect-sso/archive/master.tar.gz
-unpacking 'https://github.com/vlaci/openconnect-sso/archive/master.tar.gz'...
-[...]
-installing 'openconnect-sso-0.4.0'
-these derivations will be built:
-  /nix/store/2z47740z1rr2cfqfin5lnq04sq3c5xjg-openconnect-sso-0.4.0.drv
-[...]
-building '/nix/store/50q496iqf840wi8b95cfmgn07k6y5b59-user-environment.drv'...
-created 606 symlinks in user environment
-$ openconnect-sso
-```
-
-An overlay is also available to use in nix expressions:
-
-``` nix
-let
-  openconnectOverlay = import "${builtins.fetchTarball https://github.com/vlaci/openconnect-sso/archive/master.tar.gz}/overlay.nix";
-  pkgs = import <nixpkgs> { overlays = [ openconnectOverlay ]; };
-in
-  #  pkgs.openconnect-sso is available in this context
-```
-
-... or to use in `configuration.nix`:
-
-``` nix
-{ config, ... }:
-
-{
-  nixpkgs.overlays = [
-    (import "${builtins.fetchTarball https://github.com/vlaci/openconnect-sso/archive/master.tar.gz}/overlay.nix")
-  ];
-}
-```
 
 ### Windows *(EXPERIMENTAL)*
 
@@ -159,37 +118,3 @@ openconnect-sso --server vpn.server.com/group --user user@domain.com -- --base-m
 
 ## Development
 
-`openconnect-sso` is developed using [Nix](https://nixos.org/nix/). Refer to the
-[Quick Start section of the Nix
-manual](https://nixos.org/nix/manual/#chap-quick-start) to see how to get it
-installed on your machine.
-
-To get dropped into a development environment, just type `nix-shell`:
-
-```shell
-$ nix-shell
-Sourcing python-catch-conflicts-hook.sh
-Sourcing python-remove-bin-bytecode-hook.sh
-Sourcing pip-build-hook
-Using pipBuildPhase
-Sourcing pip-install-hook
-Using pipInstallPhase
-Sourcing python-imports-check-hook.sh
-Using pythonImportsCheckPhase
-Run 'make help' for available commands
-
-[nix-shell]$
-```
-
-To try an installed version of the package, issue `nix-build`:
-
-```shell
-$ nix build
-[1 built, 0.0 MiB DL]
-
-$ result/bin/openconnect-sso --help
-```
-
-Alternatively you may just [get Poetry](https://python-poetry.org/docs/) and
-start developing by using the included `Makefile`. Type `make help` to see the
-possible make targets.
