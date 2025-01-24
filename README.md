@@ -9,11 +9,12 @@ to Cisco SSL-VPNs
 ## Installation
 
 ### Using astral uv
-
+How to install uv: https://docs.astral.sh/uv/getting-started/installation/#pypi
 ```shell
 $ uv sync
 $ . .venv/bin/activate
 $ python src/openconnect_sso/cli.py 
+```
 
 ### Using pip/pipx
 
